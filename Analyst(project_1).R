@@ -50,23 +50,23 @@ ttest <- apply(as.matrix(filter2_var),MARGIN=1,function(x) t.test(x=x[clusters==
 pvals <- sapply(ttest,function(x) x$p.value)
 tstats <- sapply(ttest,function(x) x$statistic)
 p_adjusted <- p.adjust(pvals ,method = "fdr")
-t_p_df <- data.frame("Probeset_ID" = c(row.names(filter2_var)),
+t_df <- data.frame("Probeset_ID" = c(row.names(filter2_var)),
                      tstats,pvals,p_adjusted)
 
-write.csv(t_p_df,sep = ",",row.names = FALSE,file = "analysis5.4.csv")
+write.csv(t_df,sep = ",",row.names = FALSE,file = "analysis5.4.csv")
 
-diff_expressed <- t_p_df$Probeset_ID[t_p_df$p_adjusted<0.05]
+diff_expressed <- t_df$Probeset_ID[t_df$p_adjusted<0.05]
 print(c("Number of probes left with adjusted p value < 0.05:",length(diff_expressed)))
 
 
 #For biologist: perform same analysis on expression matrix from 4.5 and provide as csv
-ttest_bio <- apply(as.matrix(filter1_chi),MARGIN=1,function(x) t.test(x=x[clusters==1],y=x[clusters==2]))
-pvals_bio <- sapply(ttest_bio,function(x) x$p.value)
-tstats_bio <- sapply(ttest_bio,function(x) x$statistic)
-p_adjusted_bio <- p.adjust(pvals_bio,"fdr")
-biologist_4.5 <- data.frame("Probeset_ID" = c(row.names(filter1_chi)),
-                            tstats_bio,pvals_bio,p_adjusted_bio)
+t_bio <- apply(as.matrix(filter1_chi),MARGIN=1,function(x) t.test(x=x[clusters==1],y=x[clusters==2]))
+p_bio <- sapply(t_bio,function(x) x$p.value)
+t_stat_bio <- sapply(t_bio,function(x) x$statistic)
+p_adj_bio <- p.adjust(p_bio,"fdr")
+biologist_file <- data.frame("Probeset_ID" = c(row.names(filter1_chi)),
+                            t_stat_bio,p_bio,p_adj_bio)
 
-diff_expressed_bio <- biologist_4.5$Probeset_ID[biologist_4.5$p_adjusted_bio<0.05]
+diff_expressed_bio <- biologist_file$Probeset_ID[biologist_file$p_adj_bio<0.05]
 numdiff <- length(diff_expressed_bio)
-write.csv(biologist_4.5,row.names = F,file = "analysis5.6.csv",sep=",")
+write.csv(biologist_file,row.names = F,file = "analysis5.6.csv",sep=",")
