@@ -5,3 +5,6 @@ An analysis of microarray dataset that generated and described in Marisa, et. al
 Analysis.R - Noise filtering & dimensionality reduction; Hierarchical clustering & subtype discovery
 BiologistPart.R - In depth analysis of differentially expressed probe sets, and Fisher Exact test.
 Project 1 - Microarray Based Tumor Classification.docx - Final write up on the project 1 analysis.
+
+# Contributor
+Chillamcherla Dhanalakshmi Srija - srija@bu.edu
